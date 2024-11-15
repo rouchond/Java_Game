@@ -1,6 +1,7 @@
 package entity;
 
 import main.GamePanel;
+import main.KeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,15 +13,15 @@ public class Player extends Entity {
     /**
      * The X position of the screen
      */
-    public final int screenX;
+    //public final int screenX;
 
     /**
      * The Y position of the screen
      */
-    public final int screenY;
+    //public final int screenY;
 
     GamePanel gp;
-    //KeyHandler keyH;
+    KeyHandler keyH;
 
     /**
      * The amount of keys the player holds
@@ -31,13 +32,15 @@ public class Player extends Entity {
     /**
      * Create the player
      * @param gp The Game Panel
+     * @param keyH The Key Handler
      */
-    public Player(GamePanel gp){
+    public Player(GamePanel gp, KeyHandler keyH){
 
         this.gp = gp;
+        this.keyH = keyH;
 
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        //screenX = gp.screenWidth/2 - (gp.tileSize/2);
+       // screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(8, 16, 32, 32);
         solidAreaDefaultX = solidArea.x;
@@ -51,8 +54,8 @@ public class Player extends Entity {
      * Set initial position, speed, and direction of the player
      */
     private void setDefaultValues(){
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = 100;
+        worldY = 250;
         speed = 5;
         direction = "down";
     }
@@ -69,12 +72,20 @@ public class Player extends Entity {
         }
     }
 
+    private void updateMovement() {
+        if (keyH.leftPressed){
+            worldX -= 1;
+        }
+        else if (keyH.rightPressed) {
+            worldX += 1;
+        }
+    }
 
     /**
      * All the logic for the player that will be updated by the FPS factor
      */
     public void update () {
-
+        updateMovement();
     }
 
     /**
@@ -83,6 +94,6 @@ public class Player extends Entity {
      * @param g2 2D Graphics object from a panel
      */
     public void draw (Graphics2D g2) {
-        g2.drawImage(img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(img, worldX, worldY, gp.tileSize, gp.tileSize, null);
     }
 }

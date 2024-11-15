@@ -59,10 +59,11 @@ public class GamePanel extends JPanel implements Runnable {
     // System
 
     Thread gameThread;
+    KeyHandler keyH = new KeyHandler();
 
     // Entities
 
-    Player player = new Player(this);
+    public Player player = new Player(this, keyH);
 
     /**
      * An empty black game window that can listen for key inputs
@@ -72,9 +73,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.blue);
         this.setDoubleBuffered(true); // Can improve game's rendering performance
-        //this.addKeyListener(keyH);
+        this.addKeyListener(keyH);
         this.setFocusable(true); // Game panel can be "focused" to receive key input
     }
+
+
 
     /**
      * Instantiating a new game thread with the panel and starting the thread
