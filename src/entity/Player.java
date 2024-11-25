@@ -13,12 +13,12 @@ public class Player extends Entity {
     /**
      * The X position of the screen
      */
-    //public final int screenX;
+    public final int screenX;
 
     /**
      * The Y position of the screen
      */
-    //public final int screenY;
+    public final int screenY;
 
     GamePanel gp;
     KeyHandler keyH;
@@ -39,8 +39,8 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
-        //screenX = gp.screenWidth/2 - (gp.tileSize/2);
-       // screenY = gp.screenHeight/2 - (gp.tileSize/2);
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(8, 16, 32, 32);
         solidAreaDefaultX = solidArea.x;
@@ -54,8 +54,8 @@ public class Player extends Entity {
      * Set initial position, speed, and direction of the player
      */
     private void setDefaultValues(){
-        worldX = 100;
-        worldY = 250;
+        worldX = gp.tileSize * 5;
+        worldY = gp.tileSize * 2;
         speed = 5;
         direction = "down";
     }
@@ -74,10 +74,10 @@ public class Player extends Entity {
 
     private void updateMovement() {
         if (keyH.leftPressed){
-            worldX -= 1;
+            worldX -= speed;
         }
         else if (keyH.rightPressed) {
-            worldX += 1;
+            worldX += speed;
         }
     }
 
@@ -94,6 +94,6 @@ public class Player extends Entity {
      * @param g2 2D Graphics object from a panel
      */
     public void draw (Graphics2D g2) {
-        g2.drawImage(img, worldX, worldY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(img, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
