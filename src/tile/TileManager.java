@@ -42,6 +42,7 @@ public class TileManager {
         try{
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/stone-tile.png")));
+            tile[1].collision = true;
         }
         catch (IOException e){
             e.printStackTrace();

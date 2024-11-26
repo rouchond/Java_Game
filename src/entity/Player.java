@@ -1,7 +1,9 @@
 package entity;
 
+import main.CollisionHandler;
 import main.GamePanel;
 import main.KeyHandler;
+import main.PlayerController;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,13 +22,25 @@ public class Player extends Entity {
      */
     public final int screenY;
 
-    GamePanel gp;
-    KeyHandler keyH;
+    /**
+     * The current speed the player is falling
+     */
+    public int fallSpeed;
 
     /**
-     * The amount of keys the player holds
+     * The max speed the player can fall
      */
-    public int playerKeys = 0;
+    public int maxFallSpeed;
+
+    GamePanel gp;
+    KeyHandler keyH;
+    CollisionHandler colHandler;
+    PlayerController pController = new PlayerController(this);
+
+    /**
+     * The offset applied on the Player's collider rect world position
+     */
+    public int colliderOffsetX, colliderOffsetY;
 
 
     /**
@@ -38,13 +52,22 @@ public class Player extends Entity {
 
         this.gp = gp;
         this.keyH = keyH;
+        this.colHandler = new CollisionHandler(this.gp);
 
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
-        solidArea = new Rectangle(8, 16, 32, 32);
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
+        solidArea = new Rectangle();
+
+        int xOffset = (gp.tileSize / 8);
+        int yOffset = (gp.tileSize / 4);
+        colliderOffsetX = xOffset;
+        colliderOffsetY = yOffset;
+
+        solidArea.x = screenX + xOffset;
+        solidArea.y = screenY + yOffset;
+        solidArea.width = gp.tileSize - yOffset;
+        solidArea.height = gp.tileSize - yOffset;
 
         setDefaultValues();
         getPlayerImage();
@@ -56,7 +79,12 @@ public class Player extends Entity {
     private void setDefaultValues(){
         worldX = gp.tileSize * 5;
         worldY = gp.tileSize * 2;
-        speed = 5;
+        solidAreaWorldX = worldX + colliderOffsetY;
+        solidAreaWorldY = worldY + colliderOffsetY;
+        speed = 2;
+        maxSpeed = 7;
+        fallSpeed = 2;
+        maxFallSpeed = 10;
         direction = "down";
     }
 
@@ -72,20 +100,16 @@ public class Player extends Entity {
         }
     }
 
-    private void updateMovement() {
-        if (keyH.leftPressed){
-            worldX -= speed;
-        }
-        else if (keyH.rightPressed) {
-            worldX += speed;
-        }
-    }
 
     /**
      * All the logic for the player that will be updated by the FPS factor
      */
     public void update () {
-        updateMovement();
+
+        collisionOn = false;
+        colHandler.checkTile(this);
+
+        pController.updateMovement();
     }
 
     /**
@@ -94,6 +118,11 @@ public class Player extends Entity {
      * @param g2 2D Graphics object from a panel
      */
     public void draw (Graphics2D g2) {
+
         g2.drawImage(img, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        //Debug Drawings
+        g2.setColor(Color.red);
+        g2.drawRect(solidArea.x, solidArea.y, solidArea.width, solidArea.height);
     }
 }

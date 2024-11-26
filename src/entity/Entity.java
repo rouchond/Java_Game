@@ -14,6 +14,11 @@ public class Entity {
     public int speed;
 
     /**
+     * The cap of the entity movement
+     */
+    public int maxSpeed;
+
+    /**
      * Entity Sprites (will change the implementation soon)
      */
     public BufferedImage img;
@@ -34,14 +39,14 @@ public class Entity {
     public int spriteNum = 1;
 
     /**
-     * The area that represents the collision box
+     * The area that represents the collision box relative to the screen
      */
     public Rectangle solidArea;
 
     /**
-     * The area of an entity collider without collision logic
+     * The area of an entity collider relative to the world
      */
-    public int solidAreaDefaultX, solidAreaDefaultY;
+    public int solidAreaWorldX, solidAreaWorldY;
 
     /**
      * A state representing if an entity is currently in a collision
