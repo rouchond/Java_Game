@@ -5,7 +5,7 @@ import java.awt.event.KeyListener; //Look over these docs to understand more
 
 public class KeyHandler implements KeyListener {
 
-    public boolean keyDown, leftPressed, rightPressed;
+    public boolean keyDown, leftPressed, rightPressed, jumpPressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -31,6 +31,11 @@ public class KeyHandler implements KeyListener {
             rightPressed = true;
             keyDown = true;
         }
+
+        if (code == KeyEvent.VK_SPACE) {
+            jumpPressed = true;
+            keyDown = true;
+        }
     }
 
     /**
@@ -43,11 +48,17 @@ public class KeyHandler implements KeyListener {
 
         if (code == KeyEvent.VK_A){
             leftPressed = false;
-            keyDown = false;
         }
 
         if (code == KeyEvent.VK_D){
             rightPressed = false;
+        }
+
+        if (code == KeyEvent.VK_SPACE) {
+            jumpPressed = false;
+        }
+
+        if (!rightPressed && !leftPressed && !jumpPressed) {
             keyDown = false;
         }
 

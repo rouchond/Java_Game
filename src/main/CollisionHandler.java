@@ -50,11 +50,8 @@ public class CollisionHandler {
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
-                System.out.println("Tile: " + tileNum1);
-                System.out.println("Entity Bot: " + entityBottomRow);
                 if (isColliding){
                     entity.collisionOn = true;
-                    System.out.println("Colliding down");
                 }
                 break;
             case "left":
