@@ -25,6 +25,8 @@ public class PlayerFalling implements State<PlayerController> {
     public void updateState(PlayerController controller) {
         if (controller.player.collisionOn && controller.player.direction.equals("down")) {
             controller.isGrounded = true;
+            controller.player.worldY = controller.player.bumpPos;
+            controller.player.fallSpeed = controller.player.minFallSpeed;
             controller.changeState(controller.player.idle);
         } else if (!controller.player.collisionOn) {
             controller.isGrounded = false;
@@ -37,6 +39,7 @@ public class PlayerFalling implements State<PlayerController> {
 
             if (controller.player.fallSpeed < controller.player.maxFallSpeed) {
                 controller.player.fallSpeed += controller.gravity;
+                System.out.println(controller.player.fallSpeed);
             }
             controller.player.solidAreaWorldY = controller.player.worldY + controller.player.colliderOffset;
         }

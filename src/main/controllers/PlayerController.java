@@ -9,7 +9,7 @@ public class PlayerController implements EntityController<PlayerController> {
     /**
      * Gravity
      */
-    public final float gravity = 0.15f;
+    public final float gravity = 0.25f;
 
     /**
      * Represents if the player is touching the ground
@@ -24,7 +24,6 @@ public class PlayerController implements EntityController<PlayerController> {
         isGrounded = false;
         this.player = player;
         this.keyH = keyH;
-
     }
 
 

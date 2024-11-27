@@ -26,6 +26,11 @@ public class Player extends Entity {
     public final int screenY;
 
     /**
+     * The value fall speed gets reset to.
+     */
+    public float minFallSpeed;
+
+    /**
      * The current speed the player is falling
      */
     public float fallSpeed;
@@ -64,19 +69,23 @@ public class Player extends Entity {
         this.colHandler = new CollisionHandler(this.gp);
         this.pController = new PlayerController(this, this.keyH);
 
+        canMove = true;
+
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
         solidArea = new Rectangle();
 
         int xOffset = (gp.tileSize / 8);
-        int yOffset = (gp.tileSize / 4);
+        int yOffset = (gp.tileSize / 6);
+        int heightOffset = (gp.tileSize / 6);
+        int widthOffset = (gp.tileSize / 3);
         colliderOffset = yOffset;
 
         solidArea.x = screenX + xOffset;
         solidArea.y = screenY + yOffset;
-        solidArea.width = gp.tileSize - yOffset;
-        solidArea.height = gp.tileSize - yOffset;
+        solidArea.width = gp.tileSize - widthOffset;
+        solidArea.height = gp.tileSize - heightOffset;
 
         this.moving = new PlayerMoving(this.keyH);
         this.jumping = new PlayerJumping(this.keyH);
@@ -92,12 +101,13 @@ public class Player extends Entity {
      */
     private void setDefaultValues(){
         worldX = gp.tileSize * 5;
-        worldY = gp.tileSize * 2;
+        worldY = 0;
         solidAreaWorldX = worldX + colliderOffset;
         solidAreaWorldY = worldY + colliderOffset;
         speed = 2;
+        minFallSpeed = 2;
         maxSpeed = 7;
-        fallSpeed = 2;
+        fallSpeed = minFallSpeed;
         maxFallSpeed = 10;
         direction = "down";
     }
@@ -120,7 +130,19 @@ public class Player extends Entity {
      */
     public void update () {
 
+        // if colliding with wall, push off wall
+        if (!canMove) {
+            if (direction.equals("right")){
+                worldX -= speed;
+                solidAreaWorldX -= speed;
+            } else if (direction.equals("left")) {
+                worldX += speed;
+                solidAreaWorldX += speed;
+            }
+        }
+
         collisionOn = false;
+        canMove = true;
         colHandler.checkTile(this);
 
         pController.update();

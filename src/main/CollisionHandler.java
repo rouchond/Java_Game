@@ -52,25 +52,28 @@ public class CollisionHandler {
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
                 if (isColliding){
                     entity.collisionOn = true;
+                    entity.bumpPos = (entityTopRow * gp.tileSize);
                 }
                 break;
             case "left":
-                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.tileSize;
+                entityLeftCol =  entityLeftWorldX/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
                 if (isColliding){
                     entity.collisionOn = true;
+                    entity.canMove = false;
                 }
                 break;
 
             case "right":
-                entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
+                entityRightCol = entityRightWorldX/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
                 if (isColliding){
                     entity.collisionOn = true;
+                    entity.canMove = false;
                 }
 
                 break;

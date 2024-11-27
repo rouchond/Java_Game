@@ -26,6 +26,9 @@ public class PlayerMoving implements State<PlayerController> {
 
     @Override
     public void updateState(PlayerController controller) {
+//        if (!controller.isGrounded) {
+//            controller.changeState(controller.player.falling);
+//        }
         if (keyH.jumpPressed) {
             controller.changeState(controller.player.jumping);
         }
@@ -41,15 +44,19 @@ public class PlayerMoving implements State<PlayerController> {
     }
 
     private void moveLeft(PlayerController controller) {
-        controller.player.direction = "left";
-        controller.player.worldX -= controller.player.speed;
-        controller.player.solidAreaWorldX = controller.player.solidAreaWorldX + controller.player.colliderOffset;
+        if (controller.player.canMove) {
+            controller.player.direction = "left";
+            controller.player.worldX -= controller.player.speed;
+            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX - controller.player.speed;
+        }
     }
 
     private void moveRight(PlayerController controller) {
-        controller.player.direction = "right";
-        controller.player.worldX += controller.player.speed;
-        controller.player.solidAreaWorldX = controller.player.solidAreaWorldX + controller.player.colliderOffset;
+        if (controller.player.canMove) {
+            controller.player.direction = "right";
+            controller.player.worldX += controller.player.speed;
+            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX + controller.player.speed;
+        }
     }
 
     @Override

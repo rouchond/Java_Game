@@ -52,4 +52,11 @@ public class Entity {
      * A state representing if an entity is currently in a collision
      */
     public boolean collisionOn = false;
+
+    /**
+     * A state representing if an entity can move
+     */
+    public boolean canMove = false;
+
+    public int bumpPos = 0;
 }
