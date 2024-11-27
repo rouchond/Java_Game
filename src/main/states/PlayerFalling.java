@@ -39,7 +39,6 @@ public class PlayerFalling implements State<PlayerController> {
 
             if (controller.player.fallSpeed < controller.player.maxFallSpeed) {
                 controller.player.fallSpeed += controller.gravity;
-                System.out.println(controller.player.fallSpeed);
             }
             controller.player.solidAreaWorldY = controller.player.worldY + controller.player.colliderOffset;
         }
