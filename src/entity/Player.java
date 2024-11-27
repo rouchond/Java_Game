@@ -69,8 +69,6 @@ public class Player extends Entity {
         this.colHandler = new CollisionHandler(this.gp);
         this.pController = new PlayerController(this, this.keyH);
 
-        canMove = true;
-
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
 
@@ -109,7 +107,7 @@ public class Player extends Entity {
         maxSpeed = 7;
         fallSpeed = minFallSpeed;
         maxFallSpeed = 10;
-        direction = "down";
+        direction = Direction.DOWN;
     }
 
     /**
@@ -131,18 +129,18 @@ public class Player extends Entity {
     public void update () {
 
         // if colliding with wall, push off wall
-        if (!canMove) {
-            if (direction.equals("right")){
+        if (touchedWall) {
+            if (direction == Direction.RIGHT){
                 worldX -= speed;
                 solidAreaWorldX -= speed;
-            } else if (direction.equals("left")) {
+            } else if (direction == Direction.LEFT) {
                 worldX += speed;
                 solidAreaWorldX += speed;
             }
         }
 
-        collisionOn = false;
-        canMove = true;
+        resetCollisions();
+
         colHandler.checkTile(this);
 
         pController.update();

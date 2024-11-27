@@ -1,5 +1,6 @@
 package main;
 
+import entity.Direction;
 import entity.Entity;
 
 public class CollisionHandler {
@@ -34,50 +35,81 @@ public class CollisionHandler {
         boolean isColliding;
 
         switch (entity.direction) {
-            case "up":
+            case Direction.UP:
                 entityTopRow = (entityTopWorldY - entity.speed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
 
                 if (isColliding){
                     entity.collisionOn = true;
+                    entity.touchedCeiling = true;
                 }
                 break;
 
-            case "down":
+            case Direction.DOWN:
                 entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
                 if (isColliding){
                     entity.collisionOn = true;
+                    entity.isGrounded = true;
                     entity.bumpPos = (entityTopRow * gp.tileSize);
                 }
                 break;
-            case "left":
+            case Direction.LEFT:
                 entityLeftCol =  entityLeftWorldX/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+
+                //Check if colliding with ground
+                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
+                if (isColliding){
+                    entity.collisionOn = true;
+                    entity.isGrounded = true;
+                }
+
+                // Check if colliding with wall
+                entityBottomRow = (entityBottomWorldY - entity.speed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
                 if (isColliding){
                     entity.collisionOn = true;
-                    entity.canMove = false;
+                    entity.touchedWall = true;
                 }
                 break;
 
-            case "right":
+            case Direction.RIGHT:
                 entityRightCol = entityRightWorldX/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+
+                // Check if colliding with ground
+                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
+                if (isColliding){
+                    entity.collisionOn = true;
+                    entity.isGrounded = true;
+                }
+
+                // Check if colliding with wall
+                entityBottomRow = (entityBottomWorldY - entity.speed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
                 if (isColliding){
                     entity.collisionOn = true;
-                    entity.canMove = false;
+                    entity.touchedWall = true;
                 }
 
                 break;
         }
+
     }
+
 
 }

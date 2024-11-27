@@ -26,7 +26,7 @@ public class Entity {
     /**
      * Direction the entity is facing
      */
-    public String direction;
+    public Direction direction;
 
     /**
      * Timer until sprite changes
@@ -54,9 +54,19 @@ public class Entity {
     public boolean collisionOn = false;
 
     /**
-     * A state representing if an entity can move
+     * States representing the type of tile collision an entity is in.
      */
-    public boolean canMove = false;
+    public boolean isGrounded, touchedCeiling, touchedWall;
 
     public int bumpPos = 0;
+
+    /**
+     * Sets all collision related variables to false
+     */
+    public void resetCollisions () {
+        isGrounded = false;
+        touchedCeiling = false;
+        touchedWall = false;
+        collisionOn = false;
+    }
 }

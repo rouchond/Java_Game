@@ -1,5 +1,6 @@
 package main.states;
 
+import entity.Direction;
 import main.KeyHandler;
 import main.controllers.PlayerController;
 
@@ -44,16 +45,16 @@ public class PlayerMoving implements State<PlayerController> {
     }
 
     private void moveLeft(PlayerController controller) {
-        if (controller.player.canMove) {
-            controller.player.direction = "left";
+        if (!controller.player.touchedWall) {
+            controller.player.direction = Direction.LEFT;
             controller.player.worldX -= controller.player.speed;
             controller.player.solidAreaWorldX = controller.player.solidAreaWorldX - controller.player.speed;
         }
     }
 
     private void moveRight(PlayerController controller) {
-        if (controller.player.canMove) {
-            controller.player.direction = "right";
+        if (!controller.player.touchedWall) {
+            controller.player.direction = Direction.RIGHT;
             controller.player.worldX += controller.player.speed;
             controller.player.solidAreaWorldX = controller.player.solidAreaWorldX + controller.player.speed;
         }

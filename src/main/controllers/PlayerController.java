@@ -11,17 +11,11 @@ public class PlayerController implements EntityController<PlayerController> {
      */
     public final float gravity = 0.25f;
 
-    /**
-     * Represents if the player is touching the ground
-     */
-    public boolean isGrounded;
-
     public Player player;
     KeyHandler keyH;
     public State<PlayerController> currentState;
 
     public PlayerController (Player player, KeyHandler keyH) {
-        isGrounded = false;
         this.player = player;
         this.keyH = keyH;
     }

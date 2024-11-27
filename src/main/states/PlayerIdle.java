@@ -36,7 +36,7 @@ public class PlayerIdle implements State<PlayerController> {
     public void updateState(PlayerController controller) {
         if (keyH.leftPressed || keyH.rightPressed) {
             controller.changeState(controller.player.moving);
-        } else if (!controller.isGrounded) {
+        } else if (!controller.player.isGrounded) {
             controller.changeState(controller.player.falling);
         } else if (keyH.jumpPressed) {
             controller.changeState(controller.player.jumping);
