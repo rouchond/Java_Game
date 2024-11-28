@@ -34,30 +34,87 @@ public class PlayerMoving implements State<PlayerController> {
             controller.changeState(controller.player.jumping);
         }
         else if (keyH.leftPressed) {
-            moveLeft(controller);
+            if (controller.player.direction == Direction.RIGHT && controller.player.xSpeed != 0) {
+                slowDown(controller);
+            }
+            else {
+                moveLeft(controller);
+            }
         }
         else if (keyH.rightPressed) {
-            moveRight(controller);
+            if (controller.player.direction == Direction.LEFT && controller.player.xSpeed != 0) {
+                slowDown(controller);
+            }
+            else {
+                moveRight(controller);
+            }
         }
         else {
-            controller.changeState(controller.player.idle);
+            // Only go into idle if the player's horizontal speed is 0
+            if (controller.player.xSpeed == 0) {
+                controller.changeState(controller.player.idle);
+            }
+            // Slow down the player since no key is being pressed
+            else {
+                slowDown(controller);
+            }
         }
     }
 
     private void moveLeft(PlayerController controller) {
         if (!controller.player.touchedWall) {
             controller.player.direction = Direction.LEFT;
-            controller.player.worldX -= controller.player.speed;
-            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX - controller.player.speed;
+            controller.player.worldX -= getSpeed(true, controller);
+            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX - getSpeed(true, controller);
         }
     }
 
     private void moveRight(PlayerController controller) {
         if (!controller.player.touchedWall) {
             controller.player.direction = Direction.RIGHT;
-            controller.player.worldX += controller.player.speed;
-            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX + controller.player.speed;
+            controller.player.worldX += getSpeed(true, controller);
+            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX + getSpeed(true, controller);
         }
+    }
+
+    private void slowDown(PlayerController controller) {
+        if (!controller.player.touchedWall){
+        if (controller.player.direction == Direction.RIGHT) {
+            controller.player.worldX += getSpeed(false, controller);
+            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX + getSpeed(false, controller);
+        } else if (controller.player.direction == Direction.LEFT) {
+            controller.player.worldX -= getSpeed(false, controller);
+            controller.player.solidAreaWorldX = controller.player.solidAreaWorldX - getSpeed(false, controller);
+        }
+        }
+    }
+
+    private int getSpeed(boolean accel, PlayerController controller) {
+        double deltaTime = controller.player.gp.deltaTime;
+        double quickAccel = 0.1 * deltaTime;
+        double slowAccel = 0.05 * deltaTime;
+        double quickDeccel = 0.2 * deltaTime;
+        double speed;
+
+        // Speed up player
+        if (accel) {
+            //Quick burst of movement
+            if (controller.player.xSpeed < (controller.player.maxXSpeed / 3)) {
+                speed = controller.player.xSpeed + quickAccel;
+            }
+            // Slow Acceleration to top speed
+            else{
+                speed = Math.min(controller.player.xSpeed + slowAccel, controller.player.maxXSpeed);
+            }
+        }
+
+        // Slow down player
+        else {
+            speed = Math.max(controller.player.xSpeed - quickDeccel, 0);
+        }
+
+        controller.player.xSpeed = speed;
+        return (int)(speed * deltaTime);
     }
 
     @Override

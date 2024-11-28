@@ -36,7 +36,7 @@ public class CollisionHandler {
 
         switch (entity.direction) {
             case Direction.UP:
-                entityTopRow = (entityTopWorldY - entity.speed)/gp.tileSize;
+                entityTopRow = (entityTopWorldY - (int) entity.ySpeed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
 
@@ -49,7 +49,7 @@ public class CollisionHandler {
                 break;
 
             case Direction.DOWN:
-                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY + (int) entity.ySpeed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
@@ -61,7 +61,7 @@ public class CollisionHandler {
                 break;
             case Direction.LEFT:
                 entityLeftCol =  entityLeftWorldX/gp.tileSize;
-                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY + (int) entity.ySpeed)/gp.tileSize;
 
                 //Check if colliding with ground
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
@@ -73,7 +73,7 @@ public class CollisionHandler {
                 }
 
                 // Check if colliding with wall
-                entityBottomRow = (entityBottomWorldY - entity.speed)/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY - (int) entity.ySpeed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);
@@ -85,7 +85,7 @@ public class CollisionHandler {
 
             case Direction.RIGHT:
                 entityRightCol = entityRightWorldX/gp.tileSize;
-                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY + (int) entity.ySpeed)/gp.tileSize;
 
                 // Check if colliding with ground
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
@@ -97,7 +97,7 @@ public class CollisionHandler {
                 }
 
                 // Check if colliding with wall
-                entityBottomRow = (entityBottomWorldY - entity.speed)/gp.tileSize;
+                entityBottomRow = (entityBottomWorldY - (int) entity.ySpeed)/gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
                 isColliding = (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum1].collision) || (gp.tileM.tile[tileNum1] != null && gp.tileM.tile[tileNum2].collision);

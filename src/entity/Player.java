@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity {
+
+    // Screen Settings
+
     /**
      * The X position of the screen
      */
@@ -25,22 +28,7 @@ public class Player extends Entity {
      */
     public final int screenY;
 
-    /**
-     * The value fall speed gets reset to.
-     */
-    public float minFallSpeed;
-
-    /**
-     * The current speed the player is falling
-     */
-    public float fallSpeed;
-
-    /**
-     * The max speed the player can fall
-     */
-    public int maxFallSpeed;
-
-    GamePanel gp;
+    public GamePanel gp;
     KeyHandler keyH;
     CollisionHandler colHandler;
     PlayerController pController;
@@ -102,11 +90,8 @@ public class Player extends Entity {
         worldY = 0;
         solidAreaWorldX = worldX + colliderOffset;
         solidAreaWorldY = worldY + colliderOffset;
-        speed = 2;
-        minFallSpeed = 2;
-        maxSpeed = 7;
-        fallSpeed = minFallSpeed;
-        maxFallSpeed = 10;
+        maxXSpeed = 5;
+        maxYSpeed = 10;
         direction = Direction.DOWN;
     }
 
@@ -129,15 +114,15 @@ public class Player extends Entity {
     public void update () {
 
         // if colliding with wall, push off wall
-        if (touchedWall) {
-            if (direction == Direction.RIGHT){
-                worldX -= speed;
-                solidAreaWorldX -= speed;
-            } else if (direction == Direction.LEFT) {
-                worldX += speed;
-                solidAreaWorldX += speed;
-            }
-        }
+//        if (touchedWall) {
+//            if (direction == Direction.RIGHT){
+//                worldX -= xSpeed;
+//                solidAreaWorldX -= xSpeed;
+//            } else if (direction == Direction.LEFT) {
+//                worldX += xSpeed;
+//                solidAreaWorldX += xSpeed;
+//            }
+//        }
 
         resetCollisions();
 

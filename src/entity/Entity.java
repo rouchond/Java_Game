@@ -8,15 +8,6 @@ public class Entity {
      * X,Y coordinates of the Entity
      */
     public int worldX,worldY;
-    /**
-     * Units the entity moves
-     */
-    public int speed;
-
-    /**
-     * The cap of the entity movement
-     */
-    public int maxSpeed;
 
     /**
      * Entity Sprites (will change the implementation soon)
@@ -27,6 +18,16 @@ public class Entity {
      * Direction the entity is facing
      */
     public Direction direction;
+
+    /**
+     * The current pixels the player is moving per frame
+     */
+    public double xSpeed, ySpeed = 0;
+
+    /**
+     * The cap of the x and y speeds.
+     */
+    public double maxXSpeed, maxYSpeed;
 
     /**
      * Timer until sprite changes

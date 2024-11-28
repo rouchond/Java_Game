@@ -71,6 +71,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     // System
 
+    /**
+     *  The elapsed time since the last update
+     */
+    public double deltaTime;
+
     Thread gameThread;
     KeyHandler keyH = new KeyHandler();
     TileManager tileM = new TileManager(this);
@@ -117,7 +122,6 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         double drawInterval = (double) 1000000000 / fps; //converts FPS to nanoseconds
-        double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
@@ -136,14 +140,14 @@ public class GamePanel extends JPanel implements Runnable {
              */
 
             currentTime = System.nanoTime();
-            delta += (currentTime - lastTime) / drawInterval;
+            deltaTime += (currentTime - lastTime) / drawInterval;
             timer += (currentTime - lastTime); // Using to track FPS
             lastTime = currentTime;
 
-            if (delta >= 1) {
+            if (deltaTime >= 1) {
                 update();
                 repaint(); // This is how you call paintComponent
-                delta--;
+                deltaTime--;
                 //drawCount++;
             }
 

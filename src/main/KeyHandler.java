@@ -6,6 +6,7 @@ import java.awt.event.KeyListener; //Look over these docs to understand more
 public class KeyHandler implements KeyListener {
 
     public boolean keyDown, leftPressed, rightPressed, jumpPressed;
+    public float downTime = 0;
 
     @Override
     public void keyTyped(KeyEvent e) {

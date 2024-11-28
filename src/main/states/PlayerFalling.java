@@ -24,10 +24,12 @@ public class PlayerFalling implements State<PlayerController> {
 
     @Override
     public void updateState(PlayerController controller) {
+        double deltaTime = controller.player.gp.deltaTime;
+        // Just made contact with ground
         if (controller.player.collisionOn && controller.player.direction == Direction.DOWN) {
             controller.player.isGrounded = true;
             controller.player.worldY = controller.player.bumpPos;
-            controller.player.fallSpeed = controller.player.minFallSpeed;
+            controller.player.ySpeed = 0;
             controller.changeState(controller.player.idle);
         } else if (!controller.player.collisionOn) {
             controller.player.isGrounded = false;
@@ -36,10 +38,10 @@ public class PlayerFalling implements State<PlayerController> {
         //Gravity
         if (!controller.player.isGrounded) {
             controller.player.direction = Direction.DOWN;
-            controller.player.worldY += (int) controller.player.fallSpeed;
+            controller.player.worldY += (int) (controller.player.ySpeed * deltaTime);
 
-            if (controller.player.fallSpeed < controller.player.maxFallSpeed) {
-                controller.player.fallSpeed += controller.gravity;
+            if (controller.player.ySpeed < controller.player.maxYSpeed) {
+                controller.player.ySpeed += controller.gravity * deltaTime;
             }
             controller.player.solidAreaWorldY = controller.player.worldY + controller.player.colliderOffset;
         }
